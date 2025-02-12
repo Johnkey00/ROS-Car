@@ -1,0 +1,15 @@
+<launch>
+
+  <param name="robot_description" textfile="$(find ros_car_rviz)/urdf/my_car.urdf" />
+
+  <param name="use_gui" value="true"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+
+  <node name="static_tf" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 1 map base_link 10" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_car_rviz)/rviz/my_car.rviz" respawn="false" output="screen" />
+
+</launch>
