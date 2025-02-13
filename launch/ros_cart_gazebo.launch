@@ -1,0 +1,23 @@
+<launch>
+  <!-- 修改下面的 your_package_name 为你存放 URDF 文件的包名 -->
+  <arg name="model" default="$(find ros_car_gazebo)/urdf/cart.urdf" />
+
+  <!-- 将 URDF 加载到参数服务器 -->
+  <param name="robot_description" command="cat $(arg model)" />
+
+  <!-- 启动 Gazebo 空世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+
+  <!-- 启动 robot_state_publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <param name="robot_description" command="cat $(arg model)" />
+  </node>
+
+  <!-- 在 Gazebo 中生成机器人 -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-param robot_description -urdf -model three_wheel_robot" />
+</launch>
